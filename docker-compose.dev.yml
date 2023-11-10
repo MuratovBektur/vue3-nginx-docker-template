@@ -1,0 +1,26 @@
+version: "3.8"
+
+name: vue3-nginx-docker-template_dev
+
+services:
+  client:
+    container_name: "vue3-nginx-docker-template_client_dev"
+    build:
+      context: ./client
+      dockerfile: Dockerfile_dev
+    expose:
+      - 3000
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./client:/app
+  nginx:
+    image: nginx
+    restart: "no"
+    container_name: "vue3-nginx-docker-template_nginx_dev"
+    ports:
+      - 7000:80
+    depends_on:
+      - client
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ./nginx/dev:/etc/nginx/conf.d
